@@ -11,6 +11,40 @@ BinaryTree::~BinaryTree()
 {
 }
 
+void BinaryTree::insert(int a_nValue)
+{
+	TreeNode* newNode = new TreeNode(a_nValue);
+
+	TreeNode* node = m_pRoot;
+
+	while (true)
+	{
+		if (a_nValue < node->getData())
+		{
+			// check to the left
+			if (node->hasLeft())
+				node = node->getLeft(); // keep on looking
+			else
+			{
+				node->setLeft(newNode); // set our place here
+				return;
+			}
+		}
+		else
+		{
+			// check to the right
+			if (node->hasRight())
+				node = node->getRight(); // keep on looking
+			else
+			{
+				node->setRight(newNode); // set our place here
+				return;
+			}
+		}
+	}
+
+}
+
 void BinaryTree::draw(aie::Renderer2D* renderer, TreeNode* selected)
 {
 	draw(renderer, m_pRoot, 640, 680, 640, selected);
