@@ -3,6 +3,10 @@
 #include "Font.h"
 #include "Input.h"
 
+
+aie::Font* g_systemFont = nullptr;
+
+
 BinaryTreesApp::BinaryTreesApp() {
 
 }
@@ -17,7 +21,7 @@ bool BinaryTreesApp::startup() {
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
-	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+	g_systemFont = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	return true;
 }
