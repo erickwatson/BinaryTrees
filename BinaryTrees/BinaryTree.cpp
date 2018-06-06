@@ -94,6 +94,56 @@ bool BinaryTree::findNode(int a_nSearchValue, TreeNode** ppOutNode, TreeNode** p
 	return false;
 }
 
+void BinaryTree::remove(int a_nValue) {
+	
+	// find a matching node and its parent
+	TreeNode* node;
+	TreeNode* parent;
+	if (!findNode(a_nValue, &node, &parent))
+		return;
+
+	if (node->getRight() != nullptr) // do we have a right branch?
+	{
+		// find the minimum value in the right node's branch
+		TreeNode* minimum = node->getRight();
+		TreeNode* minimumParent = node;
+
+		while (minimum->getLeft() != nullptr)
+		{
+			minimumParent = minimum;
+			minimum = minimum->getLeft();
+		}
+
+		// copy the minimum's value into our node's value
+		node->setData(minimum->getData());
+
+		// set the minimumparent's pointer to minimum to null, so we can safely delete minumum
+		if (minimumParent->getLeft() == minimum)
+			minimumParent->setLeft(nullptr);
+		else
+			minimumParent->setRight(nullptr);
+
+		delete minimum;
+	}
+	else
+	{
+		if (parent->getLeft() == node)
+			parent->setLeft(node->getLeft());
+
+		if (parent->getRight() == node)
+			parent->setRight(node->getLeft());
+
+		// make sure the root is still valid
+		if (m_pRoot == node)
+			m_pRoot = node->getLeft();
+
+		delete node;
+	}
+
+	return;
+}
+
+
 void BinaryTree::draw(aie::Renderer2D* renderer, TreeNode* selected)
 {
 	draw(renderer, m_pRoot, 640, 680, 640, selected);

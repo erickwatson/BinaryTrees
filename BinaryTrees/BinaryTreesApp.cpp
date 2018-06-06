@@ -22,14 +22,12 @@ bool BinaryTreesApp::startup() {
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	g_systemFont = new aie::Font("../bin/font/consolas.ttf", 32);
-
+	m_font = g_systemFont;
 	BinaryTree* bTree;
 
 	int value;
 	TreeNode *node, *nodeParent;
 
-	bTree->insert(value);
-	//bTree->findNode(value, &node, &nodeParent);
 
 	return true;
 }
