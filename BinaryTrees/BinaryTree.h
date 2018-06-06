@@ -16,8 +16,7 @@ public:
 
 private:
 	// Find the node with the specified value.
-	bool findNode(int a_nSearchValue, TreeNode** ppOutNode,
-		TreeNode** ppOutParent);
+	bool findNode(int a_nSearchValue, TreeNode** ppOutNode, TreeNode** ppOutParent);
 	void draw(aie::Renderer2D* renderer, TreeNode*, int x, int y,
 		int horizontalSpacing, TreeNode* selected = nullptr);
 	// The root node of the tree

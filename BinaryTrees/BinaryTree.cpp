@@ -1,6 +1,7 @@
 #include "BinaryTree.h"
 
-
+// (predicate) ? (action if true) : (action if false)
+// currentNode = (a_nValue < currentNode->getData()) ? currentNode->getLeft() : currentNode->getRight();
 
 BinaryTree::BinaryTree()
 {
@@ -15,34 +16,82 @@ void BinaryTree::insert(int a_nValue)
 {
 	TreeNode* newNode = new TreeNode(a_nValue);
 
-	TreeNode* node = m_pRoot;
 
-	while (true)
+	// If the tree is empty, the value is inserted at the root (and STOP)
+	if (m_pRoot == nullptr) {
+		m_pRoot = newNode;
+		return;
+	}
+
+
+	TreeNode *currentNode = m_pRoot;
+
+
+	while (currentNode != nullptr)
 	{
-		if (a_nValue < node->getData())
+		if (a_nValue == currentNode->getData()) // Already exists, so exit
+			return;
+
+		if (a_nValue < currentNode->getData())
 		{
 			// check to the left
-			if (node->hasLeft())
-				node = node->getLeft(); // keep on looking
+			if (currentNode->hasLeft())
+				currentNode = currentNode->getLeft(); // keep on looking
 			else
 			{
-				node->setLeft(newNode); // set our place here
+				// if Left node is null
+				currentNode->setLeft(newNode); // set our place here
 				return;
 			}
 		}
 		else
 		{
 			// check to the right
-			if (node->hasRight())
-				node = node->getRight(); // keep on looking
+			if (currentNode->hasRight())
+				currentNode = currentNode->getRight(); // keep on looking
 			else
 			{
-				node->setRight(newNode); // set our place here
+				// if Right node is null
+				currentNode->setRight(newNode); // set our place here
 				return;
 			}
 		}
 	}
+}
 
+// TreeNode** is a pointer to a TreeNode pointer, (or  (TreeNode*)* )
+bool BinaryTree::findNode(int a_nSearchValue, TreeNode** ppOutNode, TreeNode** ppOutParent) {
+
+	// pointer lastNode becomes null
+	TreeNode* lastNode = nullptr;
+
+	// pointer currentNode becomes root
+	TreeNode* currentNode = m_pRoot;
+
+	// while currentNode isn't null
+	while (currentNode != nullptr)
+	{
+		// take the searchvalue input and check if it's equal to getData
+		if (a_nSearchValue == currentNode->getData()) { // Already exists, so exit
+			// (Go to allocated memory referenced by ppOutNode) and set set value within to be same as currentNode
+			(*ppOutNode) = currentNode;
+
+			// (Go to allocated memory referenced by ppOutParent) and set set value within to be same as lastNode
+			(*ppOutParent) = lastNode;
+			return true;
+		}
+
+		// Else Move down tree
+		lastNode = currentNode;
+
+		if (a_nSearchValue < currentNode->getData())
+			currentNode = currentNode->getLeft(); 
+		else
+			currentNode = currentNode->getRight(); 
+		
+	}
+
+	return false;
 }
 
 void BinaryTree::draw(aie::Renderer2D* renderer, TreeNode* selected)
