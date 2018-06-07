@@ -5,11 +5,17 @@
 
 BinaryTree::BinaryTree()
 {
+	m_pRoot = nullptr;
 }
 
 
 BinaryTree::~BinaryTree()
 {
+}
+
+bool BinaryTree::isEmpty() const
+{
+	return false;
 }
 
 void BinaryTree::insert(int a_nValue)
@@ -95,12 +101,19 @@ bool BinaryTree::findNode(int a_nSearchValue, TreeNode** ppOutNode, TreeNode** p
 }
 
 void BinaryTree::remove(int a_nValue) {
-	
+
 	// find a matching node and its parent
 	TreeNode* node;
 	TreeNode* parent;
 	if (!findNode(a_nValue, &node, &parent))
 		return;
+
+	//if (node == m_pRoot)
+	//{
+	//	m_pRoot = nullptr;
+	//	delete node;
+	//	return;
+	//}
 
 	if (node->getRight() != nullptr) // do we have a right branch?
 	{
@@ -127,12 +140,14 @@ void BinaryTree::remove(int a_nValue) {
 	}
 	else
 	{
-		if (parent->getLeft() == node)
-			parent->setLeft(node->getLeft());
+		if (parent != nullptr)
+		{
+			if (parent->getLeft() == node)
+				parent->setLeft(node->getLeft());
 
-		if (parent->getRight() == node)
-			parent->setRight(node->getLeft());
-
+			if (parent->getRight() == node)
+				parent->setRight(node->getLeft());
+		}
 		// make sure the root is still valid
 		if (m_pRoot == node)
 			m_pRoot = node->getLeft();
@@ -141,6 +156,11 @@ void BinaryTree::remove(int a_nValue) {
 	}
 
 	return;
+}
+
+TreeNode * BinaryTree::find(int a_nValue)
+{
+	return nullptr;
 }
 
 
